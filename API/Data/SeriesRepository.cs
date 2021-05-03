@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -350,14 +351,14 @@ namespace API.Data
                     .ToList();
                 series = series.Where(s => s.AppUserId == userId
                                            && s.PagesRead > 0
-                                           && s.PagesRead < s.Series.Pages - 1 // - 1 because when reading, we start at 0 then go to pages - 1. But when summing, pages assumes starting at 1
+                                           && s.PagesRead < s.Series.Pages
                                            && userLibraries.Contains(s.Series.LibraryId));
             }
             else
             {
                 series = series.Where(s => s.AppUserId == userId
                             && s.PagesRead > 0
-                            && s.PagesRead < s.Series.Pages - 1 // - 1 because when reading, we start at 0 then go to pages - 1. But when summing, pages assumes starting at 1
+                            && s.PagesRead < s.Series.Pages
                             && s.Series.LibraryId == libraryId);
             }
             var retSeries = await series
