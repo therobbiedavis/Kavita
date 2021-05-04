@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.Entities;
@@ -370,5 +372,32 @@ namespace API.Data
                 
             return retSeries.DistinctBy(s => s.Name).Take(limit); // SeriesDTO might need date information
         }
+
+        public IQueryable<SeriesDto> CreateQuery(int libraryId, FilterDto filterDto)
+        {
+            var series = _context.Series.AsNoTracking();
+
+            if (filterDto.SortOrder == SortOrder.Unspecified || filterDto.SortOrder == SortOrder.Ascending)
+            {
+                series = !string.IsNullOrEmpty(filterDto.SortKey) ? series.OrderBy(filterDto.SortKey) : series.OrderBy(s => s.SortName);
+            }
+            else
+            {
+                series = !string.IsNullOrEmpty(filterDto.SortKey) ? series.OrderBy(filterDto.SortKey + " Desc") : series.OrderByDescending(s => s.SortName);
+            }
+
+            // Where conditions will be implemented by using Enums which map to DynamicLinq syntax
+            series = series
+                .Where(s => s.LibraryId == libraryId);
+
+
+            if (filterDto.Limit > 0)
+            {
+                series = series.Take(filterDto.Limit);
+            }
+
+            return series.ProjectTo<SeriesDto>(_mapper.ConfigurationProvider);
+        }
+        
     }
 }

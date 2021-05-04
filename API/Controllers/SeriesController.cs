@@ -23,7 +23,15 @@ namespace API.Controllers
             _taskScheduler = taskScheduler;
             _unitOfWork = unitOfWork;
         }
-        
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<PagedList<Series>>> GetFilteredSeriesForLibrary(int libraryId, FilterDto fIlterDto)
+        {
+            // Task 1, implement basic page load with sorting and pagination
+
+            return BadRequest("Not Implemented");
+        }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Series>>> GetSeriesForLibrary(int libraryId, [FromQuery] UserParams userParams)
         {
@@ -161,6 +169,14 @@ namespace API.Controllers
         public ActionResult RefreshSeriesMetadata(RefreshSeriesDto refreshSeriesDto)
         {
             _taskScheduler.RefreshSeriesMetadata(refreshSeriesDto.LibraryId, refreshSeriesDto.SeriesId);
+            return Ok();
+        }
+
+
+        [HttpPost("filter")]
+        public ActionResult GetFilteredSeries(FilterDto filterDto)
+        {
+            
             return Ok();
         }
     }
