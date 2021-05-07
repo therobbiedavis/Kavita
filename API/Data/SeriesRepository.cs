@@ -1,7 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -13,7 +14,6 @@ using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 
 namespace API.Data
 {
@@ -21,13 +21,11 @@ namespace API.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        private readonly ILogger _logger;
 
-        public SeriesRepository(DataContext context, IMapper mapper, ILogger logger)
+        public SeriesRepository(DataContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _logger = logger;
         }
 
         public void Add(Series series)
@@ -292,6 +290,7 @@ namespace API.Data
         /// <summary>
         /// Returns a list of Series that were added, ordered by Created desc
         /// </summary>
+        /// <param name="userId"></param>
         /// <param name="libraryId">Library to restrict to, if 0, will apply to all libraries</param>
         /// <param name="limit">How many series to pick.</param>
         /// <returns></returns>
@@ -369,8 +368,9 @@ namespace API.Data
                 .ProjectTo<SeriesDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .ToListAsync();
-                
-            return retSeries.DistinctBy(s => s.Name).Take(limit); // SeriesDTO might need date information
+            
+            return retSeries.DistinctBy(s => s.Name).Take(limit); 
+
         }
 
         public IQueryable<SeriesDto> CreateQuery(int libraryId, FilterDto filterDto)

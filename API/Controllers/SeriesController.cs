@@ -96,6 +96,8 @@ namespace API.Controllers
         {
             return Ok(await _unitOfWork.VolumeRepository.GetChapterDtoAsync(chapterId));
         }
+
+        
         
 
         [HttpPost("update-rating")]
