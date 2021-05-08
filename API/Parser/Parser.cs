@@ -148,6 +148,10 @@ namespace API.Parser
             new Regex(
                 @"^(?!Vol\.?)(?<Series>.*)( |_|-)(?<!-)(episode ?)\d+-?\d*",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
+            // Magi - Ch.252-005.cbz
+            new Regex(
+                @"(?<Series>.*)( ?- ?)Ch\.\d+-?\d*", 
+                RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Baketeriya ch01-05.zip, Akiiro Bousou Biyori - 01.jpg, Beelzebub_172_RHS.zip, Cynthia the Mission 29.rar
             new Regex(
                 @"^(?!Vol\.?)(?<Series>.*)( |_|-)(?<!-)(ch)?\d+-?\d*",
@@ -155,10 +159,6 @@ namespace API.Parser
             // Baketeriya ch01-05.zip
             new Regex(
                 @"^(?!Vol)(?<Series>.*)ch\d+-?\d?",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled),
-            // Magi - Ch.252-005.cbz
-            new Regex(
-                @"(?<Series>.*)( ?- ?)Ch\.\d+-?\d*", 
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // [BAA]_Darker_than_Black_Omake-1.zip 
             new Regex(
