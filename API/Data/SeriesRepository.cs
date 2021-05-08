@@ -5,8 +5,10 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Dynamic.Core;
+using System.Text;
 using System.Threading.Tasks;
 using API.DTOs;
+using API.DTOs.Filter;
 using API.Entities;
 using API.Extensions;
 using API.Helpers;
@@ -373,7 +375,7 @@ namespace API.Data
 
         }
 
-        public IQueryable<SeriesDto> CreateQuery(int libraryId, FilterDto filterDto)
+        public IQueryable<SeriesDto> CreateQuery(FilterDto filterDto)
         {
             var series = _context.Series.AsNoTracking();
 
@@ -387,8 +389,29 @@ namespace API.Data
             }
 
             // Where conditions will be implemented by using Enums which map to DynamicLinq syntax
+            StringBuilder sb = new StringBuilder();
+            var index = 0;
+            foreach (var whereClause in filterDto.WhereClauses)
+            {
+                if (index > 0)
+                {
+                    sb.Append(" and ");
+                }
+                sb.Append(whereClause.Key);
+                
+                if (whereClause.Conditional == WhereConditional.Equals)
+                {
+                    sb.Append(" == ");
+                } else if (whereClause.Conditional == WhereConditional.LessThan)
+                {
+                    sb.Append(" < ");
+                }
+
+                sb.Append("\"" + whereClause.Value + "\"");
+                index++;
+            }
             series = series
-                .Where(s => s.LibraryId == libraryId);
+                .Where(sb.ToString());
 
 
             if (filterDto.Limit > 0)

@@ -10,7 +10,5 @@ namespace API.Entities.Enums
         Comic = 1,
         [Description("Book")]
         Book = 2,
-        [Description("Webtoon")]
-        Webtoon = 3
     }
 }

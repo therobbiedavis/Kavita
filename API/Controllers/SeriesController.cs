@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
+using API.DTOs.Filter;
 using API.Entities;
 using API.Extensions;
 using API.Helpers;
 using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
@@ -175,11 +177,6 @@ namespace API.Controllers
         }
 
 
-        [HttpPost("filter")]
-        public ActionResult GetFilteredSeries(FilterDto filterDto)
-        {
-            
-            return Ok();
-        }
+        
     }
 }
