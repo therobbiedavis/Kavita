@@ -32,6 +32,7 @@ namespace API.Controllers
         [HttpGet("image")]
         public async Task<ActionResult> GetImage(int chapterId, int page)
         {
+            if (page < 0) return BadRequest("Page cannot be less than 0");
             var chapter = await _cacheService.Ensure(chapterId);
             if (chapter == null) return BadRequest("There was an issue finding image file for reading");
 
@@ -254,9 +255,10 @@ namespace API.Controllers
             var volumes = await _unitOfWork.SeriesRepository.GetVolumesDtoAsync(seriesId, user.Id);
             var currentVolume = await _unitOfWork.SeriesRepository.GetVolumeAsync(volumeId);
 
-            var next = false;
+            
             if (currentVolume.Number == 0)
             {
+                var next = false;
                 foreach (var chapter in currentVolume.Chapters)
                 {
                     if (next)
@@ -265,16 +267,40 @@ namespace API.Controllers
                     }
                     if (currentChapterId == chapter.Id) next = true;
                 }
+
+                var chapterId = GetNextChapterId(currentVolume.Chapters, currentChapterId);
+                if (chapterId > 0) return Ok(chapterId);
             }
 
             foreach (var volume in volumes)
             {
+                if (volume.Number == currentVolume.Number && volume.Chapters.Count > 1)
+                { 
+                    var chapterId = GetNextChapterId(currentVolume.Chapters, currentChapterId);
+                    if (chapterId > 0) return Ok(chapterId);
+                }
+                
                 if (volume.Number == currentVolume.Number + 1)
                 {
                     return Ok(volume.Chapters.FirstOrDefault()?.Id);
                 }
             }
             return Ok(-1);
+        }
+
+        private int GetNextChapterId(IEnumerable<Chapter> chapters, int currentChapterId)
+        {
+            var next = false;
+            foreach (var chapter in chapters)
+            {
+                if (next)
+                {
+                    return chapter.Id;
+                }
+                if (currentChapterId == chapter.Id) next = true;
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -291,22 +317,20 @@ namespace API.Controllers
             var volumes = await _unitOfWork.SeriesRepository.GetVolumesDtoAsync(seriesId, user.Id);
             var currentVolume = await _unitOfWork.SeriesRepository.GetVolumeAsync(volumeId);
 
-            var next = false;
+            
             if (currentVolume.Number == 0)
             {
-                var chapters = currentVolume.Chapters.Reverse();
-                foreach (var chapter in chapters)
-                {
-                    if (next)
-                    {
-                        return Ok(chapter.Id);
-                    }
-                    if (currentChapterId == chapter.Id) next = true;
-                }
+                var chapterId = GetNextChapterId(currentVolume.Chapters.Reverse(), currentChapterId);
+                if (chapterId > 0) return Ok(chapterId);
             }
 
             foreach (var volume in volumes.Reverse())
             {
+                if (volume.Number == currentVolume.Number)
+                {
+                    var chapterId = GetNextChapterId(currentVolume.Chapters.Reverse(), currentChapterId);
+                    if (chapterId > 0) return Ok(chapterId);
+                }
                 if (volume.Number == currentVolume.Number - 1)
                 {
                     return Ok(volume.Chapters.LastOrDefault()?.Id);

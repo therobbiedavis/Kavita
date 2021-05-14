@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.DTOs;
 using API.DTOs.Filter;
@@ -158,6 +159,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<SeriesDto>>> GetRecentlyAdded(int libraryId = 0, int limit = 20)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            if (user == null) return Ok(Array.Empty<SeriesDto>());
             return Ok(await _unitOfWork.SeriesRepository.GetRecentlyAdded(user.Id, libraryId, limit));
         }
         
@@ -165,6 +167,7 @@ namespace API.Controllers
         public async Task<ActionResult<IEnumerable<SeriesDto>>> GetInProgress(int libraryId = 0, int limit = 20)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameAsync(User.GetUsername());
+            if (user == null) return Ok(Array.Empty<SeriesDto>());
             return Ok(await _unitOfWork.SeriesRepository.GetInProgress(user.Id, libraryId, limit));
         }
 

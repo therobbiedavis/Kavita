@@ -62,7 +62,6 @@ namespace API.Tests.Parser
         [InlineData("NEEDLESS_Vol.4_-_Simeon_6_v2_[SugoiSugoi].rar", "4")]
         [InlineData("Okusama wa Shougakusei c003 (v01) [bokuwaNEET]", "1")]
         [InlineData("Sword Art Online Vol 10 - Alicization Running [Yen Press] [LuCaZ] {r2}.epub", "10")]
-        
         public void ParseVolumeTest(string filename, string expected)
         {
             Assert.Equal(expected, API.Parser.Parser.ParseVolume(filename));
@@ -139,6 +138,7 @@ namespace API.Tests.Parser
         [InlineData("VanDread-v01-c001[MD].zip", "VanDread")]
         [InlineData("Momo The Blood Taker - Chapter 027 Violent Emotion.cbz", "Momo The Blood Taker")]
         [InlineData("Kiss x Sis - Ch.15 - The Angst of a 15 Year Old Boy.cbz", "Kiss x Sis")]
+        [InlineData("Green Worldz - Chapter 112 Final Chapter (End).cbz", "Green Worldz")]
         public void ParseSeriesTest(string filename, string expected)
         {
             Assert.Equal(expected, API.Parser.Parser.ParseSeries(filename));
@@ -200,6 +200,7 @@ namespace API.Tests.Parser
         [InlineData("[Hidoi]_Amaenaideyo_MS_vol01_chp02.rar", "2")]
         [InlineData("Okusama wa Shougakusei c003 (v01) [bokuwaNEET]", "3")]
         [InlineData("Kiss x Sis - Ch.15 - The Angst of a 15 Year Old Boy.cbz", "15")]
+        [InlineData("Tomogui Kyoushitsu - Chapter 006 Game 005 - Fingernails On Right Hand (Part 002).cbz", "6")]
         public void ParseChaptersTest(string filename, string expected)
         {
             Assert.Equal(expected, API.Parser.Parser.ParseChapter(filename));
@@ -229,6 +230,7 @@ namespace API.Tests.Parser
         [InlineData("Ani-Hina Art Collection.cbz", true)]
         [InlineData("Gifting The Wonderful World With Blessings! - 3 Side Stories [yuNS][Unknown]", true)]
         [InlineData("A Town Where You Live - Bonus Chapter.zip", true)]
+        [InlineData("Yuki Merry - 4-Komga Anthology", true)]
         public void ParseMangaSpecialTest(string input, bool expected)
         {
             Assert.Equal(expected,  !string.IsNullOrEmpty(API.Parser.Parser.ParseMangaSpecial(input)));
