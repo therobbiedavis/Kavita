@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using API.Entities.Collections;
 using API.Entities.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,6 +16,7 @@ namespace API.Entities
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<AppUserProgress> Progresses { get; set; }
         public ICollection<AppUserRating> Ratings { get; set; }
+        public ICollection<SmartCollection> SmartCollections { get; set; } // will this allow me to promote to a server resource? 
         public AppUserPreferences UserPreferences { get; set; }
         
         [ConcurrencyCheck]

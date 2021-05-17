@@ -1,6 +1,6 @@
 ﻿namespace API.DTOs.Filter
 {
-    public class WhereClause
+    public class WhereClauseDto
     {
         public WhereConditional Conditional { get; set; }
         public string Key { get; set; }

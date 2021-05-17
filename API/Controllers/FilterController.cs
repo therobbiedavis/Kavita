@@ -31,7 +31,7 @@ namespace API.Controllers
         [HttpGet("conditionals")]
         public ActionResult<IEnumerable<string>> GetWhereClauses()
         {
-            // Let's just hardcode it
+            // TODO: Let's just hardcode it
             return Ok(Enum.GetNames(typeof(WhereConditional)));
         }
     }
