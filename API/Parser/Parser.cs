@@ -179,39 +179,39 @@ namespace API.Parser
         {
             // Invincible Vol 01 Family matters (2005) (Digital)
             new Regex(
-                @"(?<Series>.*)(\b|_)(vol\.?)( |_)(?<Volume>\d+(-\d+)?)",
+                @"(?<Series>.*)(\b|_)(vol\.?)(\s|_)(?<Volume>\d+(-\d+)?)",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // 04 - Asterix the Gladiator (1964) (Digital-Empire) (WebP by Doc MaKS)
             new Regex(
-            @"^(?<Volume>\d+) (- |_)?(?<Series>.*(\d{4})?)( |_)(\(|\d+)",
+            @"^(?<Volume>\d+)\s(-\s|_)?(?<Series>.*(\d{4})?)(\s|_)(\(|\d+)",
             RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // 01 Spider-Man & Wolverine 01.cbr
             new Regex(
-            @"^(?<Volume>\d+) (?:- )?(?<Series>.*) (\d+)?",
+            @"^(?<Volume>\d+) (?:-\s)?(?<Series>.*)\s(\d+)?",
             RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Batman & Wildcat (1 of 3)
             new Regex(
-            @"(?<Series>.*(\d{4})?)( |_)(?:\((?<Volume>\d+) of \d+)",
+            @"(?<Series>.*(\d{4})?)(\s|_)(?:\((?<Volume>\d+)\sof\s\d+)",
             RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Teen Titans v1 001 (1966-02) (digital) (OkC.O.M.P.U.T.O.-Novus)
             new Regex(
-                @"^(?<Series>.*)(?: |_)v\d+",
+                @"^(?<Series>.*)(?:\s|_)v(?:ol\.?)?\d+",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
-            // Batman & Catwoman - Trail of the Gun 01, Batman & Grendel (1996) 01 - Devil's Bones, Teen Titans v1 001 (1966-02) (digital) (OkC.O.M.P.U.T.O.-Novus)
+            // Batman & Catwoman - Trail of the Gun 01, Batman & Grendel (1996) 01 - Devil's Bones 
             new Regex(
-                @"^(?<Series>.*)(?: \d+)",
+                @"^(?<Series>[^(#?\d+\.?\d+)]*)", // aka not those patterns ^(?<Series>.*)(?:\s\d+)
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Batman & Robin the Teen Wonder #0
             new Regex(
-                @"^(?<Series>.*)(?: |_)#\d+",
+                @"^(?<Series>.*)(?:\s|_)#\d+",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Scott Pilgrim 02 - Scott Pilgrim vs. The World (2005)
             new Regex(
-                @"^(?<Series>.*)(?: |_)(?<Volume>\d+)",
+                @"^(?<Series>.*)(?:\s|_)(?<Volume>\d+)",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // The First Asterix Frieze (WebP by Doc MaKS)
             new Regex(
-                @"^(?<Series>.*)(?: |_)(?!\(\d{4}|\d{4}-\d{2}\))\(",
+                @"^(?<Series>.*)(?:\s|_)(?!\(\d{4}|\d{4}-\d{2}\))\(",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // MUST BE LAST: Batman & Daredevil - King of New York
             new Regex(
@@ -235,32 +235,24 @@ namespace API.Parser
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Teen Titans v1 001 (1966-02) (digital) (OkC.O.M.P.U.T.O.-Novus)
             new Regex(
-                @"^(?<Series>.*)(?: |_)v(?<Volume>\d+)",
+                @"^(?<Series>.*)(?:\s|_)v(?:ol\.?)?(?<Volume>\d+)",
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
-            // Scott Pilgrim 02 - Scott Pilgrim vs. The World (2005)
+            // Scott Pilgrim 02 - Scott Pilgrim vs. The World (2005), Batman & Robin the Teen Wonder #0, Batman & Catwoman - Trail of the Gun 01, Batman & Grendel (1996) 01 - Devil's Bones
             new Regex(
-                @"^(?<Series>.*)(?: |_)(?<!of )(?<Volume>\d+)",
+                @"^(?<Series>[^\d+\.\d+]*)\s(v|#)?(?<Volume>\d+)?", // ^(?<Series>.*)(?: |_)(?<!of )(?<Volume>\d+)
                 RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Batman & Catwoman - Trail of the Gun 01, Batman & Grendel (1996) 01 - Devil's Bones, Teen Titans v1 001 (1966-02) (digital) (OkC.O.M.P.U.T.O.-Novus)
-            new Regex(
-                @"^(?<Series>.*)(?<!of)(?: (?<Volume>\d+))",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled),
+            // new Regex(
+            //     @"^(?<Series>.*)(?<!of)(?: (?<Volume>\d+))",
+            //     RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Batman & Robin the Teen Wonder #0
-            new Regex(
-                @"^(?<Series>.*)(?: |_)#(?<Volume>\d+)",
-                RegexOptions.IgnoreCase | RegexOptions.Compiled),
+            // new Regex(
+            //     @"^(?<Series>.*)(?: |_)#(?<Volume>\d+)",
+            //     RegexOptions.IgnoreCase | RegexOptions.Compiled),
         };
         
         private static readonly Regex[] ComicChapterRegex = new[]
         {
-            // // 04 - Asterix the Gladiator (1964) (Digital-Empire) (WebP by Doc MaKS)
-            // new Regex(
-            //     @"^(?<Volume>\d+) (- |_)?(?<Series>.*(\d{4})?)( |_)(\(|\d+)",
-            //     RegexOptions.IgnoreCase | RegexOptions.Compiled),
-            // // 01 Spider-Man & Wolverine 01.cbr
-            // new Regex(
-            //     @"^(?<Volume>\d+) (?:- )?(?<Series>.*) (\d+)?", // NOTE: WHy is this here without a capture group
-            //     RegexOptions.IgnoreCase | RegexOptions.Compiled),
             // Batman & Wildcat (1 of 3)
             new Regex(
                 @"(?<Series>.*(\d{4})?)( |_)(?:\((?<Chapter>\d+) of \d+)",

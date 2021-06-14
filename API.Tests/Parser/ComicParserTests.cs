@@ -20,6 +20,11 @@ namespace API.Tests.Parser
         [InlineData("Scott Pilgrim 02 - Scott Pilgrim vs. The World (2005)", "Scott Pilgrim")]
         [InlineData("Wolverine - Origins 003 (2006) (digital) (Minutemen-PhD)", "Wolverine - Origins")]
         [InlineData("Invincible Vol 01 Family matters (2005) (Digital).cbr", "Invincible")]
+        [InlineData("Invincible 070.5 - Invincible Returns 1 (2010) (digital) (Minutemen-InnerDemons).cbr", "Invincible")]
+        [InlineData("Invincible 033.5 - Marvel Team-Up 14 (2006) (digital) (Minutemen-Slayer).cbr", "Invincible")]
+        [InlineData("Batgirl V2000 #57.cbz", "Batgirl")]
+        [InlineData("Batgirl Vol.2000 #57 (2004).cbz", "Batgirl")]
+        [InlineData("Batgirl Vol.2000 #57 (December, 2004).cbz", "Batgirl")]
         public void ParseComicSeriesTest(string filename, string expected)
         {
             Assert.Equal(expected, API.Parser.Parser.ParseComicSeries(filename));
@@ -40,6 +45,11 @@ namespace API.Tests.Parser
         [InlineData("Teen Titans v1 001 (1966-02) (digital) (OkC.O.M.P.U.T.O.-Novus)", "1")]
         [InlineData("Scott Pilgrim 02 - Scott Pilgrim vs. The World (2005)", "2")]
         [InlineData("Superman v1 024 (09-10 1943)", "1")]
+        [InlineData("Invincible 070.5 - Invincible Returns 1 (2010) (digital) (Minutemen-InnerDemons).cbr", "0")]
+        [InlineData("Invincible 033.5 - Marvel Team-Up 14 (2006) (digital) (Minutemen-Slayer).cbr", "0")]
+        [InlineData("Batgirl V2000 #57.cbz", "2000")]
+        [InlineData("Batgirl Vol.2000 #57 (2004).cbz", "2000")]
+        [InlineData("Batgirl Vol.2000 #57 (December, 2004).cbz", "2000")]
         public void ParseComicVolumeTest(string filename, string expected)
         {
             Assert.Equal(expected, API.Parser.Parser.ParseComicVolume(filename));
@@ -56,11 +66,15 @@ namespace API.Tests.Parser
         [InlineData("Batman & Wildcat (1 of 3)", "1")]
         [InlineData("Batman & Wildcat (2 of 3)", "2")]
         [InlineData("Batman And Superman World's Finest #01", "0")]
-        [InlineData("Babe 01", "0")]
+        [InlineData("Babe 01", "1")]
         [InlineData("Scott Pilgrim 01 - Scott Pilgrim's Precious Little Life (2004)", "1")]
         [InlineData("Teen Titans v1 001 (1966-02) (digital) (OkC.O.M.P.U.T.O.-Novus)", "1")]
         [InlineData("Superman v1 024 (09-10 1943)", "24")]
         [InlineData("Invincible 070.5 - Invincible Returns 1 (2010) (digital) (Minutemen-InnerDemons).cbr", "70.5")]
+        [InlineData("Invincible 033.5 - Marvel Team-Up 14 (2006) (digital) (Minutemen-Slayer).cbr", "33.5")]
+        [InlineData("Batgirl V2000 #57.cbz", "57")]
+        [InlineData("Batgirl Vol.2000 #57 (2004).cbz", "57")]
+        [InlineData("Batgirl Vol.2000 #57 (December, 2004).cbz", "57")]
         public void ParseComicChapterTest(string filename, string expected)
         {
             Assert.Equal(expected, API.Parser.Parser.ParseComicChapter(filename));
