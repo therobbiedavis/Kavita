@@ -1,0 +1,3 @@
+[submodule "UI/Web"]
+	path = UI/Web
+	url = https://github.com/therobbiedavis/Kavita-webui.git
